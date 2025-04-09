@@ -1,11 +1,12 @@
 /* See LICENSE file for copyright and license details. */
+#include <X11/XF86keysym.h>
 
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:bold:size=10" };
+static const char *fonts[]          = { "JetBrainsMono Nerd Font:bold:size=12" };
 static const char dmenufont[]       = "JetBrainsMono Nerd Font:bold:size=10";
 
 static const char col_1[]       = "#1fede7"; // change this 7ED957
@@ -93,10 +94,12 @@ static const char *reboot[] = { "reboot", NULL };
 static const char *lockscreen[] = { "/bin/lockscreen.sh", NULL };
 static const char *rofi[] = { "rofi", "-show", "run", NULL };
 static const char *st[] = { "st", NULL };
-static const char *volumeUp[] = { "pamixer", "--increase", "5", NULL };
-static const char *volumeDown[] = { "pamixer", "--decrease", "5", NULL };
 static const char *toggleMute[] = { "pamixer", "--toggle-mute", NULL };
 static const char *screenshot[] = { "scrot", "/home/maverick/screenshots/%Y-%m-%d_%H-%M-%S.png", NULL };
+static const char *screenshotSelect[] = { "scrot", "-s", "/home/maverick/screenshots/%Y-%m-%d_%H-%M-%S.png", NULL };
+static const char *volmutecmd[] = { "amixer", "set", "Master", "toggle", NULL };
+static const char *volupcmd[]   = { "amixer", "set", "Master", "5%+", NULL };
+static const char *voldowncmd[] = { "amixer", "set", "Master", "5%-", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -110,10 +113,13 @@ static const Key keys[] = {
   	{ MODKEY|ShiftMask,             XK_m,      spawn,          {.v = rofi } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
     { MODKEY|ShiftMask,             XK_k,      spawn,          {.v = st } },
-    { MODKEY|ShiftMask,             XK_d,      spawn,          {.v = volumeDown } },
-    { MODKEY|ShiftMask,             XK_u,      spawn,          {.v = volumeUp } },
     { MODKEY|ShiftMask,             XK_x,      spawn,          {.v = toggleMute } },
     { MODKEY,                       XK_l,      spawn,          {.v = screenshot } },
+    { MODKEY,                       XK_x,      spawn,          {.v = screenshotSelect } },
+
+    { 0,                       XF86XK_AudioMute,             spawn,          {.v = volmutecmd } },
+    { 0,                       XF86XK_AudioRaiseVolume,      spawn,          {.v = volupcmd } },
+    { 0,                       XF86XK_AudioLowerVolume,      spawn,          {.v = voldowncmd } },
 
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },

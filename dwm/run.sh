@@ -16,10 +16,7 @@ network_info() {
           interface_name=$(basename "$interface")
           operstate=$(cat "$interface/operstate")
 
-          if [ "$operstate" = "up" ]; then
-              # ip_address=$(ip -4 -o address show dev "$interface_name" | awk '{print $4}')
-              echo "$interface_name | "
-          fi
+          [ "$operstate" = "up" ] && echo "$interface_name | "
       fi
   done
 }
